@@ -1,0 +1,64 @@
+﻿@model Book.Models.tbSavedBooks
+
+@{
+    ViewBag.Title = "Review a book";
+}
+
+<h1 class="main-page-title">@ViewBag.Title</h1>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Title)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Title)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Author)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Author)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+
+    <dd>
+        @Html.Raw(Model.Description)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Image)
+    </dt>
+
+    <dd>
+        <img src="@Html.DisplayFor(model => model.Image)" alt="@Html.DisplayFor(model => model.Title)" />
+    </dd>
+
+</dl>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    @Html.HiddenFor(model => model.Title)
+    @Html.HiddenFor(model => model.Author)
+    @Html.HiddenFor(model => model.Description)
+    @Html.HiddenFor(model => model.Image)
+    @Html.HiddenFor(model => model.Read)
+    @Html.HiddenFor(model => model.UserNameId)
+
+    @Html.DisplayNameFor(model => model.Review)
+    <br />
+    @Html.TextAreaFor(model => model.Review, 10, 80, null)
+
+    <div class="form-actions no-color">
+        <input type="submit" value="@(Model.Review == null ? "Add review" : "Edit review")" class="btn btn-success mt-3" />
+    </div>
+}
+@Html.ActionLink("Back to my shelf", "MyBooks", null, new { @class = "btn btn-primary mt-3" })

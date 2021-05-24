@@ -1,0 +1,80 @@
+﻿@model Book.Models.tbSavedBooks
+
+@{
+    ViewBag.Title = "Remove from your shelf";
+}
+
+<h1 class="main-page-title">@ViewBag.Title</h1>
+
+<h3>Are you sure you want to remove this from your shelf?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            <img src="@Html.DisplayFor(model => model.Image)" alt="@Html.DisplayFor(model => model.Title)" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Review)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Review)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Read)
+        </dt>
+
+        <dd>
+            @if (Model.Read)
+            {
+                <i class="fas fa-book-open pt-3 read-book"></i>
+            }
+            else
+            {
+                <i class="fas fa-book pt-3 unread-book"></i>
+            }
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Remove" class="btn btn-danger mt-3" />
+        </div>
+
+    }
+    @Html.ActionLink("Back to my shelf", "MyBooks", null, new { @class = "btn btn-primary mt-3" })
+</div>

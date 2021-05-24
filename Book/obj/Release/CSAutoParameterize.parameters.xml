@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="dbBookEntities-Web.config Connection String" description="dbBookEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.tbSavedBooks.csdl|res://*/Models.tbSavedBooks.ssdl|res://*/Models.tbSavedBooks.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDb)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\dbBook.mdf;initial catalog=dbBook;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\iainp\\OneDrive\\Github\\Book\\Book\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='dbBookEntities']/@connectionString" />
+  </parameter>
+  <parameter name="dbBook-Web.config Connection String" description="dbBook Connection String used in web.config by the application to access the database." defaultValue="dbBook_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\iainp\\OneDrive\\Github\\Book\\Book\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='dbBook']/@connectionString" />
+  </parameter>
+</parameters>

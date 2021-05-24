@@ -1,0 +1,64 @@
+﻿@model Book.Models.tbSavedBooks
+
+@{
+    ViewBag.Title = "Add to your shelf";
+}
+
+<h1 class="main-page-title">@ViewBag.Title</h1>
+
+<h3>Are you sure you want to add this to your shelf?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            <img src="@Html.DisplayFor(model => model.Image)" alt="@Html.DisplayFor(model => model.Title)" />
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        @Html.HiddenFor(model => model.Title)
+        @Html.HiddenFor(model => model.Author)
+        @Html.HiddenFor(model => model.Description)
+        @Html.HiddenFor(model => model.Image)
+        @Html.HiddenFor(model => model.Read)
+        @Html.HiddenFor(model => model.UserNameId)
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Add to my shelf" class="btn btn-success mt-3" />
+        </div>
+    }
+    @Html.ActionLink("Back to search", "Index", null, new { @class = "btn btn-primary mt-3" })
+</div>
+

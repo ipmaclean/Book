@@ -1,0 +1,145 @@
+﻿@using Microsoft.AspNet.Identity
+@model Google.Apis.Books.v1.Data.Volumes
+
+@{
+    ViewBag.Title = "Search for books";
+}
+
+<h1 class="main-page-title">@ViewBag.Title</h1>
+
+<div class="search-box">
+    <div class="search-icon"><i class="fa fa-search search-icon"></i></div>
+    @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "search-form" }))
+    {
+        @Html.TextBox("SearchTerm", "", new { placeholder = "Find your next read", id = "search", autocomplete = "off" })
+
+    }
+    <svg class="search-border" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" viewBox="0 0 671 111" style="enable-background:new 0 0 671 111;"
+         xml:space="preserve">
+    <path class="border" d="M335.5,108.5h-280c-29.3,0-53-23.7-53-53v0c0-29.3,23.7-53,53-53h280" />
+    <path class="border" d="M335.5,108.5h280c29.3,0,53-23.7,53-53v0c0-29.3-23.7-53-53-53h-280" />
+    </svg>
+    <div class="go-icon"><i class="fas fa-arrow-right"></i></div>
+</div>
+
+@if (Model == null)
+{
+<div id="landing-image">
+
+</div>
+}
+
+
+@if (Model != null)
+{
+    <table id="results-table" class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Description</th>
+                <th scope="col">Image</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var book in Model.Items)
+            {
+                <tr>
+                    <td scope="row">
+                        @Html.DisplayFor(m => book.VolumeInfo.Title)
+                    </td>
+                    <td>
+                        @if (book.VolumeInfo.Authors != null)
+                        {
+                            var author = book.VolumeInfo.Authors.FirstOrDefault();
+                            @Html.DisplayFor(m => author)
+                        }
+                        else
+                        {
+                            var author = "Author not found.";
+                            @Html.DisplayFor(m => author)
+                        }
+                    </td>
+                    <td>
+                        @if (book.VolumeInfo.Description != null)
+                        {
+                            var maxLength = 400;
+                            if (book.VolumeInfo.Description.Length <= maxLength)
+                            {
+                                @Html.DisplayFor(m => book.VolumeInfo.Description)
+                            }
+                            else
+                            {
+                                <div>
+                                    @{var shortDescription = book.VolumeInfo.Description.Substring(0, maxLength) + "...";}
+                                    @Html.DisplayFor(m => shortDescription)
+                                    <br />
+                                </div>
+
+                                <div class="hidden full-description">
+                                    @Html.DisplayFor(m => book.VolumeInfo.Description)
+                                    <br />
+                                </div>
+
+
+                                <a class="showmore-btn btn btn-info btn-sm">Read more</a>
+                            }
+                        }
+                        else
+                        {
+                            var description = "Description not found.";
+                            @Html.DisplayFor(m => description)
+                        }
+                    </td>
+                    <td>
+                        <img src="@Html.DisplayFor(m => book.VolumeInfo.ImageLinks.Thumbnail)" alt="@Html.DisplayFor(m => book.VolumeInfo.Title)" />
+
+
+                    </td>
+                    <td>
+                        @Html.ActionLink("Add to my shelf", "Create", new { BookId = book.Id }, new { @class = "btn btn-primary table-button" })
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#results-table').DataTable({
+                "ordering": false
+            });
+        });
+    </script>
+    <script src="~/Scripts/showMore.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search").focus(function () {
+                $(".search-box").addClass("border-searching");
+                $(".search-icon").addClass("si-rotate");
+            });
+            $("#search").blur(function () {
+                $(".search-box").removeClass("border-searching");
+                $(".search-icon").removeClass("si-rotate");
+            });
+            $("#search").keyup(function () {
+                if ($(this).val().length > 0) {
+                    $(".go-icon").addClass("go-in");
+                }
+                else {
+                    $(".go-icon").removeClass("go-in");
+                }
+            });
+            $(".go-icon").click(function () {
+                $(".search-form").submit();
+            });
+        });
+    </script>
+}
+
